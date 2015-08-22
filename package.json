@@ -1,0 +1,32 @@
+{
+  "name": "pngjs-draw",
+  "version": "0.0.3",
+  "description": "Adds basic drawing functionnalities to pngjs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aloisdeniel/node-pngjs-drawing.git"
+  },
+  "keywords": [
+    "pngjs",
+    "draw",
+    "shapes",
+    "strings",
+    "text",
+    "line",
+    "rectangle",
+    "png"
+  ],
+  "author": "Aloïs Deniel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aloisdeniel/node-pngjs-drawing/issues"
+  },
+  "homepage": "https://github.com/aloisdeniel/node-pngjs-drawing",
+  "dependencies": {
+    "pngjs": "^0.4.0"
+  }
+}
