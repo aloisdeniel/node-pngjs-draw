@@ -10,12 +10,12 @@ module.exports = function(PNG) {
    * @param {Object} font The font used to render the string
    * @return {int} The number of pixels
    */
-  PNG.prototype.measureText = function (s,font) {
+  PNG.prototype.measureText = function (text,font) {
     var total = 0;
 
-    for (var i = 0; i < s.length; i++) {
+    for (var i = 0; i < text.length; i++) {
       if(i > 0) total+= font.spaceBetweenChars;
-      var char = font.getChar(s[i]);
+      var char = font.getChar(text[i]);
       total+= char.width;
     }
 
@@ -37,10 +37,10 @@ module.exports = function(PNG) {
     if(!font)
       font = defaultFont;
 
-    for (var i = 0; i < s.length; i++) {
+    for (var i = 0; i < text.length; i++) {
 
       if(i > 0) x+= font.spaceBetweenChars;
-      var c = s[i];
+      var c = text[i];
       var char = font.getChar(c);
 
       for (var p = 0; p < char.pixels.length; p++) {
@@ -77,10 +77,10 @@ module.exports = function(PNG) {
    */
   PNG.prototype.fillRect = function(x, y ,width, height, color) {
 
-    var startY = Math.max(0,Math.min(this.height, y0));
-    var startX = Math.max(0,Math.min(this.width, x0));
-    var endY = Math.min(this.height, y0 + height);
-    var endX = Math.min(this.width, x0 + width);
+    var startY = Math.max(0,Math.min(this.height, y));
+    var startX = Math.max(0,Math.min(this.width, x));
+    var endY = Math.min(this.height, y + height);
+    var endX = Math.min(this.width, x + width);
 
     for (var y = startY; y < endY; y++) {
       for (var x = startX; x < endX; x++) {

@@ -1,6 +1,6 @@
 {
   "name": "pngjs-draw",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Adds basic drawing functionnalities to pngjs.",
   "main": "index.js",
   "scripts": {
