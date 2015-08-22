@@ -11,6 +11,10 @@ module.exports = function(PNG) {
    * @return {int} The number of pixels
    */
   PNG.prototype.measureText = function (text,font) {
+
+    if(!font)
+      font = defaultFont;
+
     var total = 0;
 
     for (var i = 0; i < text.length; i++) {
@@ -230,6 +234,7 @@ function loadFont(png, options) {
 
   var font = {
     toUpper: options.toUpper,
+    height: png.height - 1,
     spaceBetweenChars: getCharWidth(png,0, options.delimiters[0]),
     chars: {}
   };
