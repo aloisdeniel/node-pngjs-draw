@@ -94,6 +94,27 @@ module.exports = function(PNG) {
   }
 
   /*
+   * Draws a stroked rectangle with the given color.
+   *
+   * @param {int} x0 The top left x coordinate of the rectangle
+   * @param {int} y0 The top left y coordinate of the rectangle
+   * @param {int} width The width of the rectangle
+   * @param {int} height The height of the rectangle
+   * @param {Array(byte)} color The color used to paint strokes of the rectangle
+   */
+  PNG.prototype.drawRect = function(x, y ,width, height, color) {
+    var topLeft = {x: x, y: y};
+    var topRight = {x: x+width-1, y: y};
+    var bottomRight = {x: topRight.x, y: y+height-1};
+    var bottomLeft = {x: x, y: bottomRight.y};
+
+    this.drawLine(topLeft.x,topLeft.y,topRight.x,topRight.y,color);
+    this.drawLine(topRight.x,topRight.y,bottomRight.x,bottomRight.y,color);
+    this.drawLine(bottomRight.x,bottomRight.y,bottomLeft.x,bottomLeft.y,color);
+    this.drawLine(bottomLeft.x,bottomLeft.y,topLeft.x,topLeft.y,color);
+  }
+
+  /*
    * Draws the pixel at the given coordinates with the given color.
    *
    * @param {int} x The x coordinate of the pixel

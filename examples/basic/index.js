@@ -12,6 +12,9 @@ fs.createReadStream("blue.png")
     // Draws a line with transparent red
     this.drawLine(0,0,200,200, this.colors.red(50))
 
+    // Draws a rectangle with transparent black
+    this.drawRect(150,150,75,20, this.colors.black(100))
+
     // Draws a filled rectangle with transparent white
     this.fillRect(50,50,100,100, this.colors.white(100))
 

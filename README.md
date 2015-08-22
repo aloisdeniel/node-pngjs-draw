@@ -18,12 +18,14 @@ var png = drawing(require('pngjs').PNG);
 fs.createReadStream("blue.png")
   .pipe(new png({ filterType: 4 }))
   .on('parsed', function() {
-
-    // Draws a pixel with black
+    // Draws a pixel with transparent green
     this.drawPixel(150,200, this.colors.black())
 
     // Draws a line with transparent red
     this.drawLine(0,0,200,200, this.colors.red(50))
+
+    // Draws a rectangle with transparent black
+    this.fillRect(150,150,75,20, this.colors.black(100))
 
     // Draws a filled rectangle with transparent white
     this.fillRect(50,50,100,100, this.colors.white(100))
@@ -55,6 +57,16 @@ Draws a line beetween two points with the given color.
 * {`int`} `x1` The x coordinate of the end
 * {`int`} `y1` The y coordinate of the end
 * {`Array(byte)`} `color` The color used to paint the line
+
+### PNG.prototype.drawRect
+
+Draws a stroked rectangle with the given color.
+
+* {`int`} `x` The top left x coordinate of the rectangle
+* {`int`} `y` The top left y coordinate of the rectangle
+* {`int`} `width` The width of the rectangle
+* {`int`} `height` The height of the rectangle
+* {`Array(byte)`} `color` The color used to  paint strokes of the rectangle
 
 ### PNG.prototype.fillRect
 
