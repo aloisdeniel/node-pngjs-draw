@@ -205,12 +205,13 @@ function color(r,g,b,a)
 */
 function blend(background, color) {
   var srcAlpha = color[3] / 255.0;
+  var dstAlpha = background[3] * (255.0 - color[3]) / 255.0;
 
   return [
-    Math.round(color[0] * srcAlpha + background[0] * (1 - srcAlpha)),
-    Math.round(color[1] * srcAlpha + background[1] * (1 - srcAlpha)),
-    Math.round(color[2] * srcAlpha + background[2] * (1 - srcAlpha)),
-    background[3]
+    Math.round((color[0] * srcAlpha) + (background[0] * dstAlpha) / 255.0),
+    Math.round((color[1] * srcAlpha) + (background[1] * dstAlpha) / 255.0),
+    Math.round((color[2] * srcAlpha) + (background[2] * dstAlpha) / 255.0),
+    Math.round(color[3] + dstAlpha),
   ];
 }
 
