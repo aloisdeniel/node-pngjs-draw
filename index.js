@@ -36,7 +36,7 @@ module.exports = function(PNG) {
    * @param {Object} font The font used to render the string (default: defaultFont)
    * @return {int} The length of the rendered string
    */
-  PNG.prototype.drawText = function (x,y,text,color,font) {
+  PNG.prototype.drawText = function (x, y, text, color, font) {
 
     if(!font)
       font = defaultFont;
@@ -49,10 +49,17 @@ module.exports = function(PNG) {
 
       for (var p = 0; p < char.pixels.length; p++) {
         var pixel = char.pixels[p];
-        this.drawPixel(x+pixel[0], y+pixel[1],color);
+        const pixelOpacityRatio = getPixelOpacityRatio(pixel);
+        const pixelColor = [
+          color[0],
+          color[1],
+          color[2],
+          color[3] * pixelOpacityRatio,
+        ];
+        this.drawPixel(x + pixel[0], y + pixel[1], pixelColor);
       }
 
-      x+= char.width;
+      x += char.width;
     }
 
     return x;
@@ -221,12 +228,36 @@ function blend(background, color) {
 * @param {Array(byte)} c2 The other color
 * @return {bool} True if each component of the colors are equals.
 */
-function equalsColors(c1,c2){
-  for (var i = 0; i < 4; i++) {
+function equalsColors(c1, c2, options) {
+  const ignoreOpacity = (options && options.ignoreOpacity) || false;
+  const colorsRangeToCompare = ignoreOpacity ? 3 : 4;
+
+  for (var i = 0; i < colorsRangeToCompare; i++) {
     if(c1[i] !== c2[i])
       return false;
   }
   return true;
+}
+
+function isTransparent(color) {
+  if (color.length < 4) {
+    return false;
+  }
+
+  if (color[3] > 0) {
+    return false;
+  }
+
+  return true;
+}
+
+function getPixelOpacityRatio(pixel) {
+  /* For compatibility with older fonts. */
+  if (pixel.length < 3) {
+    return 1;
+  }
+
+  return pixel[2] / 255;
 }
 
 /*
@@ -297,9 +328,14 @@ function loadFontChar(png,x, fontColor, delimiter) {
   var pixels = [];
   for (var y = startY; y < endY; y++) {
     for (var x = startX; x < endX; x++) {
-      var pixelColor = readPixel(png,x,y)
-      if(pixelColor != null && equalsColors(pixelColor,fontColor))
-        pixels.push([x- startX, y]);
+      var pixelColor = readPixel(png, x, y)
+      if (
+        pixelColor != null
+        && equalsColors(pixelColor, fontColor, { ignoreOpacity: true })
+        && !isTransparent(pixelColor)
+      ) {
+        pixels.push([x - startX, y, pixelColor[3]]);
+      }
     }
   }
   return {
